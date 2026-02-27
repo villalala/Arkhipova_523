@@ -13,23 +13,53 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+                <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+           
             
-            <StackPanel Grid.Row="0" HorizontalAlignment="Center" Width="799"> 
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Width="799"> 
             <TextBlock Text="Функция 1" HorizontalAlignment="Center" FontSize="30"/>
             <Image Source="Images/formula1.png" Width="500" Margin="0,0,0,25" HorizontalAlignment="Center"/>
-        </StackPanel >
-
-        <StackPanel Grid.RowSpan="1" Grid.Row="1">
-            <Button Content="Вычислить" Width="136" Height="33" Margin="10" FontSize="16" HorizontalAlignment="Left"/>
-            <Button Content="Очистить" Width="136" Height="28" Margin="10" FontSize="16" HorizontalAlignment="Left"/>
         </StackPanel>
 
+        <StackPanel Grid.Row="1" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
+                <StackPanel Width="180" HorizontalAlignment="Left">
+                    <Button Content="Вычислить" Grid.Column="0" Width="136" Height="33" Margin="10" FontSize="16" />
+                    <Button Content="Очистить" Grid.Column="0" Width="136" Height="28" Margin="10" FontSize="16" />
+                </StackPanel>
 
+                <StackPanel HorizontalAlignment="Center" Grid.Column="2">
+                    <TextBlock Text="Результат:" FontSize="18" ></TextBlock>
+                    <TextBox x:Name="Result" Margin="15" HorizontalAlignment="Right" Width="421" Height="24" FontSize="18" IsReadOnly="True" Background="#F0F0F0" />
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel  Grid.Column="0" HorizontalAlignment="Right" Width="260">
+                    <TextBlock Text="X" Grid.Column="0" HorizontalAlignment="Right" Margin="10" FontSize="16" ></TextBlock>
+                    <TextBlock Text="Y" Grid.Column="0" HorizontalAlignment="Right" Margin="10" FontSize="16" ></TextBlock>
+                    <TextBlock Text="Z" Grid.Column="0" HorizontalAlignment="Right" Margin="10" FontSize="16" ></TextBlock>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                    <TextBox x:Name="txtX"  FontSize="16" Margin="10" Width="222"/>
+                    <TextBox x:Name="txtY" FontSize="16" Margin="10" Width="222"/>
+                    <TextBox x:Name="txtZ"  FontSize="16" Margin="10" Width="222"/>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Page>
