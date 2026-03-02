@@ -7,6 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Background="White"
+      xmlns:charts="clr-namespace:System.Windows.Forms.DataVisualization.Charting;assembly=System.Windows.Forms.DataVisualization"
       Title="Page3">
 
     <Grid>
@@ -42,6 +43,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="130"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -49,16 +51,30 @@
                 <StackPanel  Grid.Column="0" HorizontalAlignment="Right" Width="30">
                     <TextBlock Text="x₀" HorizontalAlignment="Right" Margin="5" FontSize="16" ></TextBlock>
                     <TextBlock Text="xₖ" HorizontalAlignment="Right" Margin="5" FontSize="16" ></TextBlock>
-                    <TextBlock Text="dx" HorizontalAlignment="Right" Margin="6" FontSize="16" ></TextBlock>
-                    <TextBlock Text="b" HorizontalAlignment="Right" Margin="7" FontSize="16" ></TextBlock>
+                    <TextBlock Text="dx" HorizontalAlignment="Right" Margin="7" FontSize="16" ></TextBlock>
+                    <TextBlock Text="b" HorizontalAlignment="Right" Margin="8" FontSize="16" ></TextBlock>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
-                    <TextBox x:Name="X0" Margin="10,5" FontSize="16" ToolTip="Начало отрезка" Width="113"/>
-                    <TextBox x:Name="Xk" Margin="10,5" FontSize="16" ToolTip="Конец отрезка"/>
-                    <TextBox x:Name="Dx" Margin="10,5" FontSize="16" ToolTip="Шаг (положительный)"/>
-                    <TextBox x:Name="B" Margin="10,5" FontSize="16" ToolTip="Параметр b"/>
+                    <TextBox x:Name="X0" Margin="5" FontSize="16" ToolTip="Начало отрезка"/>
+                    <TextBox x:Name="Xk" Margin="5" FontSize="16" ToolTip="Конец отрезка"/>
+                    <TextBox x:Name="Dx" Margin="5" FontSize="16" ToolTip="Шаг (положительный)"/>
+                    <TextBox x:Name="B" Margin="5" FontSize="16" ToolTip="Параметр b"/>
                 </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="5">
+                    <WindowsFormsHost Grid.RowSpan="2" HorizontalAlignment="Left" Height="100" Margin="237,15,0,0" VerticalAlignment="Top" Width="100">
+                        <charts:Chart x:Name="ChartPayments">
+                            <charts:Chart.Legends>
+                                <charts:Legend>
+                                </charts:Legend>
+                            </charts:Chart.Legends>
+                        </charts:Chart>
+                    </WindowsFormsHost>
+
+                    <TextBox x:Name="GraficResult" Grid.Column="3" VerticalScrollBarVisibility="Auto" IsReadOnly="True" FontFamily="Consolas" FontSize="13" Background="#FAFAFA" ToolTip="Значения x и y"/>
+                </StackPanel>
+                
             </Grid>
         </StackPanel>
 
