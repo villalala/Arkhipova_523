@@ -1,29 +1,35 @@
 ﻿<Page x:Class="Arkhipova_523.Page1"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Arkhipova_523"
-      mc:Ignorable="d" 
+      mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Background="White"
       Title="Page1">
-
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-           
-            
-        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Width="799"> 
-            <TextBlock Text="Функция 1" HorizontalAlignment="Center" FontSize="30"/>
-            <Image Source="Images/formula1.png" Width="500" Margin="0,0,0,25" HorizontalAlignment="Center"/>
+
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Width="799">
+            <TextBlock Text="Функция 1" 
+                       HorizontalAlignment="Center" 
+                       FontSize="30"
+                       ToolTip="Это заголовок первой функции (вариант по заданию)"/>
+
+            <Image Source="Images/formula1.png" 
+                   Width="500" 
+                   Margin="0,0,0,25" 
+                   HorizontalAlignment="Center"
+                   ToolTip="Формула функции №1 (скриншот из задания)"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" >
+        <StackPanel Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -31,13 +37,37 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Width="180" HorizontalAlignment="Left">
-                    <Button Content="Вычислить" Grid.Column="0" Width="136" Height="33" Margin="10" FontSize="16" />
-                    <Button Content="Очистить" Grid.Column="0" Width="136" Height="31" Margin="10" FontSize="16" />
+                    <Button Content="Вычислить" 
+                            Grid.Column="0" 
+                            Width="136" 
+                            Height="33" 
+                            Margin="10" 
+                            FontSize="16"
+                            ToolTip="Нажмите, чтобы вычислить значение функции по введённым данным" Click="Button_Click"/>
+
+                    <Button Content="Очистить" 
+                            Grid.Column="0" 
+                            Width="136" 
+                            Height="31" 
+                            Margin="10" 
+                            FontSize="16"
+                            ToolTip="Очистить все поля ввода и результат" Click="Button_Click_1"/>
                 </StackPanel>
 
-                <StackPanel HorizontalAlignment="Center" Grid.Column="2">
-                    <TextBlock Text="Результат:" FontSize="18" ></TextBlock>
-                    <TextBox x:Name="Result" Margin="15" HorizontalAlignment="Right" Width="421" Height="24" FontSize="18" IsReadOnly="True" Background="#F0F0F0" />
+                <StackPanel HorizontalAlignment="Center" Grid.Column="1">
+                    <TextBlock Text="Результат:" 
+                               FontSize="18"
+                               ToolTip="Здесь появится вычисленное значение функции"/>
+
+                    <TextBox x:Name="Result" 
+                             Margin="15" 
+                             HorizontalAlignment="Right" 
+                             Width="421" 
+                             Height="24" 
+                             FontSize="18" 
+                             IsReadOnly="True" 
+                             Background="#F0F0F0"
+                             ToolTip="Результат расчёта (поле только для чтения)"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
@@ -49,22 +79,58 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel  Grid.Column="0" HorizontalAlignment="Right" Width="260">
-                    <TextBlock Text="X" Grid.Column="0" HorizontalAlignment="Right" Margin="10" FontSize="16" ></TextBlock>
-                    <TextBlock Text="Y" Grid.Column="0" HorizontalAlignment="Right" Margin="10" FontSize="16" ></TextBlock>
-                    <TextBlock Text="Z" Grid.Column="0" HorizontalAlignment="Right" Margin="10" FontSize="16" ></TextBlock>
+                <StackPanel Grid.Column="0" HorizontalAlignment="Right" Width="260">
+                    <TextBlock Text="X" 
+                               Grid.Column="0" 
+                               HorizontalAlignment="Right" 
+                               Margin="10" 
+                               FontSize="16"
+                               ToolTip="Введите значение переменной X"/>
+
+                    <TextBlock Text="Y" 
+                               Grid.Column="0" 
+                               HorizontalAlignment="Right" 
+                               Margin="10" 
+                               FontSize="16"
+                               ToolTip="Введите значение переменной Y"/>
+
+                    <TextBlock Text="Z" 
+                               Grid.Column="0" 
+                               HorizontalAlignment="Right" 
+                               Margin="10" 
+                               FontSize="16"
+                               ToolTip="Введите значение переменной Z"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                    <TextBox x:Name="txtX"  FontSize="16" Margin="10" Width="222"/>
-                    <TextBox x:Name="txtY" FontSize="16" Margin="10" Width="222"/>
-                    <TextBox x:Name="txtZ"  FontSize="16" Margin="10" Width="222"/>
+                    <TextBox x:Name="txtX" 
+                             FontSize="16" 
+                             Margin="10" 
+                             Width="222"
+                             ToolTip="Поле для ввода значения X (обязательно)"/>
+
+                    <TextBox x:Name="txtY" 
+                             FontSize="16" 
+                             Margin="10" 
+                             Width="222"
+                             ToolTip="Поле для ввода значения Y (обязательно)"/>
+
+                    <TextBox x:Name="txtZ" 
+                             FontSize="16" 
+                             Margin="10" 
+                             Width="222"
+                             ToolTip="Поле для ввода значения Z (обязательно)"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
 
         <StackPanel Grid.Row="3">
-            <Button Content="Далее" Width="136" Height="33" Margin="10" FontSize="16" />
+            <Button Content="Далее" 
+                    Width="136" 
+                    Height="33" 
+                    Margin="10" 
+                    FontSize="16"
+                    ToolTip="Перейти к следующей функции / странице" Click="Button_Click_2"/>
         </StackPanel>
     </Grid>
 </Page>

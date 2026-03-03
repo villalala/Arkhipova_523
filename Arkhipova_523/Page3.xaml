@@ -32,8 +32,8 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Width="180" HorizontalAlignment="Left">
-                    <Button Content="Вычислить" Grid.Column="0" Width="129" Height="33" Margin="10" FontSize="16" />
-                    <Button Content="Очистить" Grid.Column="0" Width="129" Height="31" Margin="10" FontSize="16" />
+                    <Button Content="Вычислить" Grid.Column="0" Width="129" Height="33" Margin="10" FontSize="16" Click="Button_Click_2" />
+                    <Button Content="Очистить" Grid.Column="0" Width="129" Height="31" Margin="10" FontSize="16" Click="Button_Click" />
                 </StackPanel>
 
             </Grid>
@@ -63,7 +63,7 @@
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="5">
-                    <WindowsFormsHost Grid.RowSpan="2" HorizontalAlignment="Left" Height="100" Margin="237,15,0,0" VerticalAlignment="Top" Width="100">
+                    <WindowsFormsHost Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top" >
                         <charts:Chart x:Name="ChartPayments">
                             <charts:Chart.Legends>
                                 <charts:Legend>
@@ -74,14 +74,14 @@
 
                     <TextBox x:Name="GraficResult" Grid.Column="3" VerticalScrollBarVisibility="Auto" IsReadOnly="True" FontFamily="Consolas" FontSize="13" Background="#FAFAFA" ToolTip="Значения x и y"/>
                 </StackPanel>
-                
+
             </Grid>
         </StackPanel>
 
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Назад" Width="136" Height="33" Margin="10" FontSize="16" HorizontalAlignment="Left" />
-            <Button Content="Далее" Width="136" Height="33" Margin="10" FontSize="16" HorizontalAlignment="Right" />
+        <StackPanel Grid.Row="3" HorizontalAlignment="Center">
+            <Button Content="Назад" Width="136" Height="33" Margin="10" FontSize="16" HorizontalAlignment="Center" Click="Button_Click_1" />
+
         </StackPanel>
-        
+
     </Grid>
 </Page>
