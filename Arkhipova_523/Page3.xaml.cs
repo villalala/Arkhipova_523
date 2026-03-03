@@ -144,6 +144,21 @@ namespace Arkhipova_523
         {
             NavigationService.Navigate(new Page2());
         }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show(
+                "Вы действительно хотите выйти из приложения?",
+                "Подтверждение выхода",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question,
+                MessageBoxResult.No); 
+
+            if (result == MessageBoxResult.Yes)
+            { 
+                Application.Current.Shutdown();
+            }
+        }
     }
 }
 

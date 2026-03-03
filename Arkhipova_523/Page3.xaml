@@ -78,9 +78,9 @@
             </Grid>
         </StackPanel>
 
-        <StackPanel Grid.Row="3" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="3" HorizontalAlignment="Center" Orientation="Horizontal">
             <Button Content="Назад" Width="136" Height="33" Margin="10" FontSize="16" HorizontalAlignment="Center" Click="Button_Click_1" />
-
+            <Button Content="Выход" Width="136" Height="33" Margin="10" FontSize="16" HorizontalAlignment="Center" Click="Button_Click_3"/>
         </StackPanel>
 
     </Grid>
