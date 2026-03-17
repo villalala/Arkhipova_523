@@ -114,5 +114,38 @@ namespace BankTests
 
             Assert.Fail("The expected exception was not thrown.");
         }
+
+        [TestMethod]
+        public void Credit_WithZeroAmount_DoesNotChangeBalance()
+        {
+            // Arrange
+            double beginningBalance = 11.99;
+            double creditAmount = 0.0;
+            BankAccount account = new BankAccount("Mr. Roman Abramovich", beginningBalance);
+
+            // Act
+            account.Credit(creditAmount);
+
+            // Assert
+            double actual = account.Balance;
+            Assert.AreEqual(beginningBalance, actual, 0.001, "Balance should not change after crediting zero");
+        }
+
+        [TestMethod]
+        public void Credit_WithSmallPositiveAmount_IncreasesBalance()
+        {
+            // Arrange
+            double beginningBalance = 100.00;
+            double creditAmount = 0.01;
+            double expected = 100.01;
+            BankAccount account = new BankAccount("Mr. Bryan Walton", beginningBalance);
+
+            // Act
+            account.Credit(creditAmount);
+
+            // Assert
+            double actual = account.Balance;
+            Assert.AreEqual(expected, actual, 0.001, "Balance should increase correctly after small credit");
+        }
     }
 }
