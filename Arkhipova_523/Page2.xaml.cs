@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Arkhipova_523
 {
@@ -25,71 +15,89 @@ namespace Arkhipova_523
             InitializeComponent();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Обработчик кнопки "Вычислить" — функция 2
+        /// </summary>
+        private void BtnCalculate_Click(object sender, RoutedEventArgs e)
         {
-
-            if (string.IsNullOrWhiteSpace(txtX.Text) ||
-                string.IsNullOrWhiteSpace(txtM.Text))
+            try
             {
-                MessageBox.Show("Заполните поля X и I!",
-                    "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            double x = double.Parse(txtX.Text.Replace(',', '.'));
-            if (!int.TryParse(txtM.Text, out int i))
-            {
-                MessageBox.Show("I должно быть целым числом!",
-                    "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            double f = 0;
-            if (rbSinh.IsChecked == true)
-            {
-                f = Math.Sinh(x);
-            }
-            else if (rbX2.IsChecked == true)
-            {
-                f = x * x;
-            }
-            else if (rbExp.IsChecked == true)
-            {
-                f = Math.Exp(x);
-            }
-            else
-            {
-                MessageBox.Show("Выберите одну из функций f(x)!",
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            double e_value;
-            bool i_odd = (i % 2 != 0);
-
-            if (i_odd && x > 0)
-            {
-                if (f < 0)
+                if (string.IsNullOrWhiteSpace(txtX.Text) ||
+                    string.IsNullOrWhiteSpace(txtM.Text))
                 {
-                    MessageBox.Show("f(x) отрицательно под корнем при x > 0 и нечётном i!",
-                        "Ошибка домена", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Заполните поля X и I!",
+                        "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-                e_value = i * Math.Sqrt(f);
+
+                double x = double.Parse(txtX.Text.Replace(',', '.'));
+                if (!int.TryParse(txtM.Text, out int i))
+                {
+                    MessageBox.Show("I должно быть целым числом!",
+                        "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                double f = GetFValue(x);
+
+                double result = CalculateFunction2(x, i, f);
+
+                Result.Text = result.ToString("F6");
             }
-            else if (!i_odd && x < 0)
+            catch (FormatException)
             {
-                e_value = (i / 2.0) * Math.Sqrt(Math.Abs(f));
+                MessageBox.Show("Введите корректные числа!",
+                    "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// Возвращает значение f(x) в зависимости от выбранного RadioButton
+        /// </summary>
+        private double GetFValue(double x)
+        {
+            if (rbSinh.IsChecked == true)
+                return Math.Sinh(x);
+            else if (rbX2.IsChecked == true)
+                return x * x;
+            else if (rbExp.IsChecked == true)
+                return Math.Exp(x);
+            else
+                throw new InvalidOperationException("Не выбрана функция f(x)");
+        }
+
+        /// <summary>
+        /// Чистая функция расчёта второй математической функции (кусочная)
+        /// </summary>
+        private double CalculateFunction2(double x, int i, double f)
+        {
+            bool iOdd = (i % 2 != 0);
+
+            if (iOdd && x > 0)
+            {
+                if (f < 0)
+                    throw new ArgumentException("f(x) отрицательно под корнем при x > 0 и нечётном i");
+
+                return i * Math.Sqrt(f);
+            }
+            else if (!iOdd && x < 0)
+            {
+                return (i / 2.0) * Math.Sqrt(Math.Abs(f));
             }
             else
             {
-                e_value = Math.Sqrt(Math.Abs(f));
+                return Math.Sqrt(Math.Abs(f));
             }
-
-            Result.Text = e_value.ToString("F6");
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Обработчик кнопки "Очистить"
+        /// </summary>
+        private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             txtX.Clear();
             txtM.Clear();
@@ -97,12 +105,18 @@ namespace Arkhipova_523
             rbSinh.IsChecked = true;
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Переход на предыдущую страницу (Page1)
+        /// </summary>
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Page1());
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Переход на следующую страницу (Page3)
+        /// </summary>
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Page3());
         }

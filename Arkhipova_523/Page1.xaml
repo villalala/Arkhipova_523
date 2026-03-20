@@ -43,7 +43,7 @@
                             Height="33" 
                             Margin="10" 
                             FontSize="16"
-                            ToolTip="Нажмите, чтобы вычислить значение функции по введённым данным" Click="Button_Click"/>
+                            ToolTip="Нажмите, чтобы вычислить значение функции по введённым данным" Click="BtnCalculate_Click"/>
 
                     <Button Content="Очистить" 
                             Grid.Column="0" 
@@ -51,7 +51,7 @@
                             Height="31" 
                             Margin="10" 
                             FontSize="16"
-                            ToolTip="Очистить все поля ввода и результат" Click="Button_Click_1"/>
+                            ToolTip="Очистить все поля ввода и результат" Click="BtnClear_Click"/>
                 </StackPanel>
 
                 <StackPanel HorizontalAlignment="Center" Grid.Column="1">
@@ -130,7 +130,7 @@
                     Height="33" 
                     Margin="10" 
                     FontSize="16"
-                    ToolTip="Перейти к следующей функции / странице" Click="Button_Click_2"/>
+                    ToolTip="Перейти к следующей функции / странице" Click="BtnNext_Click"/>
         </StackPanel>
     </Grid>
 </Page>

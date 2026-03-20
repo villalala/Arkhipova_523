@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Arkhipova_523
 {
@@ -25,7 +15,10 @@ namespace Arkhipova_523
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Обработчик кнопки "Вычислить" — расчёт функции 1
+        /// </summary>
+        private void BtnCalculate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -49,31 +42,14 @@ namespace Arkhipova_523
                     return;
                 }
 
-                double absX = Math.Abs(x);
-                double sqrtAbsX = Math.Sqrt(absX);
-                double exponent = -sqrtAbsX;
-                double yPow = Math.Pow(y, exponent); 
-                double lnPart = Math.Log(yPow); 
+                double result = CalculateFunction1(x, y, z);
 
-                double bracket = x - y / 2.0; 
-
-                double atanZ = Math.Atan(z);
-                double sinAtan = Math.Sin(atanZ);
-                double sin2 = sinAtan * sinAtan; 
-
-                double a = lnPart * bracket + sin2;
-
-                Result.Text = a.ToString("F6");
+                Result.Text = result.ToString("F6");
             }
             catch (FormatException)
             {
                 MessageBox.Show("Введите корректные числа!\n(используйте точку или запятую как разделитель)",
                     "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (OverflowException)
-            {
-                MessageBox.Show("Слишком большое/маленькое число — переполнение!",
-                    "Ошибка вычисления", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
@@ -82,7 +58,25 @@ namespace Arkhipova_523
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Чистая функция расчёта первой математической функции
+        /// </summary>
+        private double CalculateFunction1(double x, double y, double z)
+        {
+            double absoluteX = Math.Abs(x);
+            double yPowered = Math.Pow(y, -Math.Sqrt(absoluteX));
+            double lnPart = Math.Log(yPowered);
+
+            double secondPart = x - y / 2.0;
+            double sinSquared = Math.Pow(Math.Sin(Math.Atan(z)), 2);
+
+            return lnPart * secondPart + sinSquared;
+        }
+
+        /// <summary>
+        /// Обработчик кнопки "Очистить"
+        /// </summary>
+        private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             txtX.Clear();
             txtY.Clear();
@@ -90,10 +84,12 @@ namespace Arkhipova_523
             Result.Clear();
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Переход на следующую страницу
+        /// </summary>
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Page2());
         }
     }
-    
 }

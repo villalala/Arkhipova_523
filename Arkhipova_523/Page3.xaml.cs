@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Forms.DataVisualization.Charting;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Arkhipova_523
 {
@@ -38,63 +27,71 @@ namespace Arkhipova_523
             }
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Обработчик кнопки "Вычислить" — табулирование функции 3
+        /// </summary>
+        private void BtnCalculate_Click(object sender, RoutedEventArgs e)
         {
-            var ci = System.Globalization.CultureInfo.InvariantCulture;
+            try
+            {
+                if (!TryGetInput(out double x0, out double xk, out double dx, out double b))
+                    return;
+
+                if (dx <= 0)
+                {
+                    MessageBox.Show("Шаг dx должен быть положительным!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                if (x0 > xk)
+                {
+                    MessageBox.Show("x₀ должно быть меньше или равно xₖ!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                PerformTabulation(x0, xk, dx, b);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Введите корректные числа!", "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// Получает и парсит значения из полей ввода
+        /// </summary>
+        private bool TryGetInput(out double x0, out double xk, out double dx, out double b)
+        {
+            x0 = xk = dx = b = 0;
 
             string sX0 = X0.Text.Trim();
             string sXk = Xk.Text.Trim();
             string sDx = Dx.Text.Trim();
             string sB = B.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(sX0) || string.IsNullOrWhiteSpace(sXk) || string.IsNullOrWhiteSpace(sDx) || string.IsNullOrWhiteSpace(sB))
+            if (string.IsNullOrWhiteSpace(sX0) || string.IsNullOrWhiteSpace(sXk) ||
+                string.IsNullOrWhiteSpace(sDx) || string.IsNullOrWhiteSpace(sB))
             {
                 MessageBox.Show("Заполните все поля!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                return false;
             }
 
-            double x0, xk, dx, b;
+            var ci = System.Globalization.CultureInfo.InvariantCulture;
 
-            if (!double.TryParse(sX0.Replace(',', '.'), System.Globalization.NumberStyles.Any, ci, out x0))
-            {
-                MessageBox.Show($"Ошибка в x₀: '{sX0}'", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            if (!double.TryParse(sXk.Replace(',', '.'), System.Globalization.NumberStyles.Any, ci, out xk))
-            {
-                MessageBox.Show($"Ошибка в xₖ: '{sXk}'", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            if (!double.TryParse(sDx.Replace(',', '.'), System.Globalization.NumberStyles.Any, ci, out dx))
-            {
-                MessageBox.Show($"Ошибка в dx: '{sDx}'", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            if (!double.TryParse(sB.Replace(',', '.'), System.Globalization.NumberStyles.Any, ci, out b))
-            {
-                MessageBox.Show($"Ошибка в b: '{sB}'", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+            return double.TryParse(sX0.Replace(',', '.'), System.Globalization.NumberStyles.Any, ci, out x0) &&
+                   double.TryParse(sXk.Replace(',', '.'), System.Globalization.NumberStyles.Any, ci, out xk) &&
+                   double.TryParse(sDx.Replace(',', '.'), System.Globalization.NumberStyles.Any, ci, out dx) &&
+                   double.TryParse(sB.Replace(',', '.'), System.Globalization.NumberStyles.Any, ci, out b);
+        }
 
-            // Проверки
-            if (dx <= 0)
-            {
-                MessageBox.Show("Шаг dx должен быть положительным!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            double intervalLength = Math.Abs(xk - x0);
-            if (dx > intervalLength)
-            {
-                MessageBox.Show($"Шаг dx ({dx}) больше длины интервала ({intervalLength})!\n" + "График будет содержать всего одну точку. Уменьшите шаг или увеличьте интервал.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-
-            if (x0 > xk)
-            {
-                MessageBox.Show("x₀ должно быть меньше или равно xₖ!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
+        /// <summary>
+        /// Основная логика табулирования и построения графика
+        /// </summary>
+        private void PerformTabulation(double x0, double xk, double dx, double b)
+        {
             ChartPayments.Series.Clear();
             GraficResult.Clear();
 
@@ -113,6 +110,7 @@ namespace Arkhipova_523
             while (x <= xk + 1e-10)
             {
                 double y = Math.Pow(x, 4) + Math.Cos(2 + Math.Pow(x, 3) - b);
+
                 series.Points.AddXY(x, y);
                 GraficResult.AppendText($"x = {x,10:F4}    y = {y,12:F6}\n");
 
@@ -121,7 +119,8 @@ namespace Arkhipova_523
 
                 if (pointCount > 5000)
                 {
-                    MessageBox.Show("Слишком много точек — уменьшите интервал или увеличьте шаг.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Слишком много точек — уменьшите интервал или увеличьте шаг.",
+                        "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
                     break;
                 }
             }
@@ -130,7 +129,10 @@ namespace Arkhipova_523
                 ChartPayments.ChartAreas[0].RecalculateAxesScale();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Обработчик кнопки "Очистить"
+        /// </summary>
+        private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             X0.Clear();
             Xk.Clear();
@@ -140,26 +142,30 @@ namespace Arkhipova_523
             ChartPayments.Series.Clear();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Переход на предыдущую страницу (Page2)
+        /// </summary>
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Page2());
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Выход из приложения с подтверждением
+        /// </summary>
+        private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show(
                 "Вы действительно хотите выйти из приложения?",
                 "Подтверждение выхода",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question,
-                MessageBoxResult.No); 
+                MessageBoxResult.No);
 
             if (result == MessageBoxResult.Yes)
-            { 
+            {
                 Application.Current.Shutdown();
             }
         }
     }
 }
-
-
