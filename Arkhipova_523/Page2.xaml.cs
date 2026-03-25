@@ -15,39 +15,31 @@ namespace Arkhipova_523
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Обработчик кнопки "Вычислить" — функция 2
-        /// </summary>
         private void BtnCalculate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(txtX.Text) ||
-                    string.IsNullOrWhiteSpace(txtM.Text))
+                if (string.IsNullOrWhiteSpace(txtX.Text) || string.IsNullOrWhiteSpace(txtM.Text))
                 {
-                    MessageBox.Show("Заполните поля X и I!",
-                        "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Заполните поля X и I!", "Ошибка ввода", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
 
                 double x = double.Parse(txtX.Text.Replace(',', '.'));
                 if (!int.TryParse(txtM.Text, out int i))
                 {
-                    MessageBox.Show("I должно быть целым числом!",
-                        "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("I должно быть целым числом!", "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
                 double f = GetFValue(x);
-
                 double result = CalculateFunction2(x, i, f);
 
                 Result.Text = result.ToString("F6");
             }
             catch (FormatException)
             {
-                MessageBox.Show("Введите корректные числа!",
-                    "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Введите корректные числа!", "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
@@ -55,25 +47,19 @@ namespace Arkhipova_523
             }
         }
 
-        /// <summary>
-        /// Возвращает значение f(x) в зависимости от выбранного RadioButton
-        /// </summary>
         private double GetFValue(double x)
         {
-            if (rbSinh.IsChecked == true)
-                return Math.Sinh(x);
-            else if (rbX2.IsChecked == true)
-                return x * x;
-            else if (rbExp.IsChecked == true)
-                return Math.Exp(x);
-            else
-                throw new InvalidOperationException("Не выбрана функция f(x)");
+            if (rbSinh.IsChecked == true) return Math.Sinh(x);
+            if (rbX2.IsChecked == true) return x * x;
+            if (rbExp.IsChecked == true) return Math.Exp(x);
+
+            throw new InvalidOperationException("Не выбрана функция f(x)");
         }
 
         /// <summary>
-        /// Чистая функция расчёта второй математической функции (кусочная)
+        /// Чистая функция расчёта второй математической функции
         /// </summary>
-        private double CalculateFunction2(double x, int i, double f)
+        public double CalculateFunction2(double x, int i, double f)
         {
             bool iOdd = (i % 2 != 0);
 
@@ -81,7 +67,6 @@ namespace Arkhipova_523
             {
                 if (f < 0)
                     throw new ArgumentException("f(x) отрицательно под корнем при x > 0 и нечётном i");
-
                 return i * Math.Sqrt(f);
             }
             else if (!iOdd && x < 0)
@@ -94,9 +79,6 @@ namespace Arkhipova_523
             }
         }
 
-        /// <summary>
-        /// Обработчик кнопки "Очистить"
-        /// </summary>
         private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             txtX.Clear();
@@ -105,17 +87,11 @@ namespace Arkhipova_523
             rbSinh.IsChecked = true;
         }
 
-        /// <summary>
-        /// Переход на предыдущую страницу (Page1)
-        /// </summary>
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Page1());
         }
 
-        /// <summary>
-        /// Переход на следующую страницу (Page3)
-        /// </summary>
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Page3());

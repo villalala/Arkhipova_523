@@ -16,7 +16,7 @@ namespace Arkhipova_523
         }
 
         /// <summary>
-        /// Обработчик кнопки "Вычислить" — расчёт функции 1
+        /// Обработчик кнопки "Вычислить" — функция 1
         /// </summary>
         private void BtnCalculate_Click(object sender, RoutedEventArgs e)
         {
@@ -43,39 +43,33 @@ namespace Arkhipova_523
                 }
 
                 double result = CalculateFunction1(x, y, z);
-
                 Result.Text = result.ToString("F6");
             }
             catch (FormatException)
             {
-                MessageBox.Show("Введите корректные числа!\n(используйте точку или запятую как разделитель)",
+                MessageBox.Show("Введите корректные числа!\n(используйте точку или запятую)",
                     "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Неизвестная ошибка:\n{ex.Message}",
-                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         /// <summary>
         /// Чистая функция расчёта первой математической функции
         /// </summary>
-        private double CalculateFunction1(double x, double y, double z)
+        public double CalculateFunction1(double x, double y, double z)
         {
             double absoluteX = Math.Abs(x);
             double yPowered = Math.Pow(y, -Math.Sqrt(absoluteX));
             double lnPart = Math.Log(yPowered);
-
             double secondPart = x - y / 2.0;
             double sinSquared = Math.Pow(Math.Sin(Math.Atan(z)), 2);
 
             return lnPart * secondPart + sinSquared;
         }
 
-        /// <summary>
-        /// Обработчик кнопки "Очистить"
-        /// </summary>
         private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             txtX.Clear();
@@ -84,9 +78,6 @@ namespace Arkhipova_523
             Result.Clear();
         }
 
-        /// <summary>
-        /// Переход на следующую страницу
-        /// </summary>
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Page2());
