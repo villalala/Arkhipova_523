@@ -7,7 +7,9 @@ using System.Windows.Navigation;
 namespace Arkhipova_523
 {
     /// <summary>
-    /// Логика взаимодействия для Page3.xaml
+    /// Логика взаимодействия для третьей страницы приложения (Page3).
+    /// Реализует табулирование функции и построение графика.
+    /// Функция: y = x⁴ + cos(2 + x³ - b)
     /// </summary>
     public partial class Page3 : Page
     {
@@ -27,6 +29,11 @@ namespace Arkhipova_523
             }
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Вычислить".
+        /// Выполняет валидацию введённых данных, вызывает табулирование функции
+        /// и строит график.
+        /// </summary>
         private void BtnCalculate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -36,12 +43,14 @@ namespace Arkhipova_523
 
                 if (dx <= 0)
                 {
-                    MessageBox.Show("Шаг dx должен быть положительным!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Шаг dx должен быть положительным!",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 if (x0 > xk)
                 {
-                    MessageBox.Show("x₀ должно быть меньше или равно xₖ!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("x₀ должно быть меньше или равно xₖ!",
+                        "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
 
@@ -49,14 +58,20 @@ namespace Arkhipova_523
             }
             catch (FormatException)
             {
-                MessageBox.Show("Введите корректные числа!", "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Введите корректные числа!\n(используйте точку или запятую)",
+                    "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Неизвестная ошибка:\n{ex.Message}",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+        /// <summary>
+        /// Получает значения из полей ввода и выполняет их преобразование в числа.
+        /// </summary>
+        /// <returns>True — если все данные успешно распарсены, иначе False</returns>
         private bool TryGetInput(out double x0, out double xk, out double dx, out double b)
         {
             x0 = xk = dx = b = 0;
@@ -82,8 +97,13 @@ namespace Arkhipova_523
         }
 
         /// <summary>
-        /// Основная логика табулирования и построения графика
+        /// Основная логика табулирования функции и построения графика.
+        /// Вычисляет значения y на интервале [x₀, xₖ] с шагом dx и отображает их.
         /// </summary>
+        /// <param name="x0">Начало отрезка</param>
+        /// <param name="xk">Конец отрезка</param>
+        /// <param name="dx">Шаг табулирования</param>
+        /// <param name="b">Параметр b в формуле</param>
         public void PerformTabulation(double x0, double xk, double dx, double b)
         {
             ChartPayments.Series.Clear();
@@ -104,6 +124,7 @@ namespace Arkhipova_523
             while (x <= xk + 1e-10)
             {
                 double y = Math.Pow(x, 4) + Math.Cos(2 + Math.Pow(x, 3) - b);
+
                 series.Points.AddXY(x, y);
                 GraficResult.AppendText($"x = {x,10:F4}    y = {y,12:F6}\n");
 
@@ -122,6 +143,10 @@ namespace Arkhipova_523
                 ChartPayments.ChartAreas[0].RecalculateAxesScale();
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Очистить".
+        /// Очищает все поля ввода, таблицу результатов и график.
+        /// </summary>
         private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             X0.Clear();
@@ -132,11 +157,18 @@ namespace Arkhipova_523
             ChartPayments.Series.Clear();
         }
 
+        /// <summary>
+        /// Переход на предыдущую страницу (Page2)
+        /// </summary>
         private void BtnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Page2());
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Выход".
+        /// Показывает диалог подтверждения и завершает работу приложения.
+        /// </summary>
         private void BtnExit_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show(
@@ -147,7 +179,9 @@ namespace Arkhipova_523
                 MessageBoxResult.No);
 
             if (result == MessageBoxResult.Yes)
+            {
                 Application.Current.Shutdown();
+            }
         }
     }
 }

@@ -6,7 +6,8 @@ using System.Windows.Navigation;
 namespace Arkhipova_523
 {
     /// <summary>
-    /// Логика взаимодействия для Page1.xaml
+    /// Логика взаимодействия для первой страницы приложения.
+    /// Реализует расчёт математической функции №1 (вариант 5).
     /// </summary>
     public partial class Page1 : Page
     {
@@ -16,7 +17,9 @@ namespace Arkhipova_523
         }
 
         /// <summary>
-        /// Обработчик кнопки "Вычислить" — функция 1
+        /// Обработчик нажатия кнопки "Вычислить".
+        /// Выполняет валидацию введённых данных, производит расчёт функции 1
+        /// и выводит результат в поле Result.
         /// </summary>
         private void BtnCalculate_Click(object sender, RoutedEventArgs e)
         {
@@ -43,26 +46,33 @@ namespace Arkhipova_523
                 }
 
                 double result = CalculateFunction1(x, y, z);
+
                 Result.Text = result.ToString("F6");
             }
             catch (FormatException)
             {
-                MessageBox.Show("Введите корректные числа!\n(используйте точку или запятую)",
+                MessageBox.Show("Введите корректные числа!\n(используйте точку или запятую как разделитель)",
                     "Ошибка формата", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Неизвестная ошибка:\n{ex.Message}",
+                    "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         /// <summary>
-        /// Чистая функция расчёта первой математической функции
+        /// Чистая функция расчёта первой математической функции (вариант 5).
+        /// Формула: a = ln(y^(-√|x|)) * (x - y/2) + sin²(arctan(z))
         /// </summary>
+        /// <param name="x">Значение переменной x</param>
+        /// <param name="y">Значение переменной y (должно быть > 0)</param>
+        /// <param name="z">Значение переменной z</param>
+        /// <returns>Результат вычисления функции</returns>
         public double CalculateFunction1(double x, double y, double z)
         {
             double absoluteX = Math.Abs(x);
-            double yPowered = Math.Pow(y, -Math.Sqrt(absoluteX));
+            double yPowered = Math.Pow(y, -Math.Sqrt(absoluteX)); 
             double lnPart = Math.Log(yPowered);
             double secondPart = x - y / 2.0;
             double sinSquared = Math.Pow(Math.Sin(Math.Atan(z)), 2);
@@ -70,6 +80,10 @@ namespace Arkhipova_523
             return lnPart * secondPart + sinSquared;
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Очистить".
+        /// Очищает все поля ввода и поле результата.
+        /// </summary>
         private void BtnClear_Click(object sender, RoutedEventArgs e)
         {
             txtX.Clear();
@@ -78,6 +92,9 @@ namespace Arkhipova_523
             Result.Clear();
         }
 
+        /// <summary>
+        /// Переход на следующую страницу (Page2).
+        /// </summary>
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Page2());
