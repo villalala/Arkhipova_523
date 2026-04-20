@@ -63,7 +63,7 @@ namespace Galaxyy
                 case 'I':
                     MyGType = Type.Irregular;
                     break;
-                case 'L':
+                case 'L': 
                     MyGType = Type.Lenticular;
                     break;
                 default:
