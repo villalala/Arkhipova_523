@@ -15,21 +15,98 @@ using System.Windows.Shapes;
 
 namespace Arkhipova_523
 {
-    
-    internal static class Rot13Logic
+    /// <summary>
+    /// Страница графического интерфейса для шифрования и дешифрования алгоритмом ROT13.
+    /// Реализует валидацию ввода, обработку исключений и документирование кода.
+    /// </summary>
+    public partial class Page1 : Page
     {
-        public static string Process(string text)
+        private readonly Rot13Encryptor _encryptor = new Rot13Encryptor();
+        private readonly Rot13Decryptor _decryptor = new Rot13Decryptor();
+
+        /// <summary>
+        /// Инициализирует компоненты интерфейса.
+        /// </summary>
+        public Page1()
         {
-            char[] arr = text.ToCharArray();
-            for (int i = 0; i < arr.Length; i++)
+            InitializeComponent();
+        }
+
+        /// <summary>
+        /// Обработчик нажатия кнопки "Зашифровать".
+        /// Выполняет валидацию, шифрование и отображение результата.
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
+        private void BtnEncrypt_Click(object sender, RoutedEventArgs e)
+        {
+            try
             {
-                if (char.IsLetter(arr[i]))
+                ClearError();
+                string input = txtInput.Text;
+
+                if (string.IsNullOrWhiteSpace(input))
                 {
-                    char offset = char.IsUpper(arr[i]) ? 'A' : 'a';
-                    arr[i] = (char)(offset + (arr[i] - offset + 13) % 26);
+                    ShowError("Введите текст для шифрования.");
+                    txtInput.Focus();
+                    return;
                 }
+
+                string result = _encryptor.Encrypt(input);
+                txtOutput.Text = result;
             }
-            return new string(arr);
+            catch (Exception ex)
+            {
+                ShowError($"Ошибка шифрования: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Обработчик нажатия кнопки "Дешифровать".
+        /// Выполняет валидацию, дешифрование и отображение результата.
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Аргументы события</param>
+        private void btnDecrypt_Click_2(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ClearError();
+                string input = txtInput.Text;
+
+                if (string.IsNullOrWhiteSpace(input))
+                {
+                    ShowError("Введите шифротекст для дешифрования.");
+                    txtInput.Focus();
+                    return;
+                }
+
+                string result = _decryptor.Decrypt(input);
+                txtOutput.Text = result;
+            }
+            catch (Exception ex)
+            {
+                ShowError($"Ошибка дешифрования: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Отображает сообщение об ошибке в интерфейсе.
+        /// </summary>
+        /// <param name="message">Текст ошибки</param>
+        private void ShowError(string message)
+        {
+            txtError.Text = message;
+            txtError.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Скрывает сообщение об ошибке и очищает текст.
+        /// </summary>
+        private void ClearError()
+        {
+            txtError.Visibility = Visibility.Collapsed;
+            txtError.Text = string.Empty;
         }
     }
 }
